@@ -1,0 +1,340 @@
+OBJECT Table 55555 TmpTable
+{
+  OBJECT-PROPERTIES
+  {
+    Date=07-07-23;
+    Time=[ 8:55:13 AM];
+    Modified=Yes;
+    Version List=;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 55555;  ;Undefined           ;Text30         }
+    { 55556;  ;Captioned           ;Text30         }
+    { 55557;  ;ENU_nld             ;Option        ;CaptionML=[ENU=ENU_caption;
+                                                              NLD=NLD_caption];
+                                                   OptionCaptionML=[ENU=OptionCaption;
+                                                                    NLD=Optie-Captie];
+                                                   OptionString=OptionString }
+  }
+  KEYS
+  {
+    {    ;Undefined                               ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Report 55555 tmpReport
+{
+  OBJECT-PROPERTIES
+  {
+    Date=07-07-23;
+    Time=[ 8:57:23 AM];
+    Modified=Yes;
+    Version List=;
+  }
+  PROPERTIES
+  {
+  }
+  DATASET
+  {
+    { 1000000000;;DataItem;                  ;
+               DataItemTable=Table55555 }
+
+    { 1000000001;1;Column;aa                 ;
+               SourceExpr=TmpTable.Undefined }
+
+    { 1000000002;1;Column;bb                 ;
+               SourceExpr=TmpTable.Captioned }
+
+    { 1000000003;1;Column;cc                 ;
+               SourceExpr=TmpTable.ENU_nld }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+    <?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+</Report>
+    END_OF_RDLDATA
+  }
+}
+
+OBJECT Codeunit 55555 tmpCodeunit
+{
+  OBJECT-PROPERTIES
+  {
+    Date=07-07-23;
+    Time=[ 8:58:29 AM];
+    Modified=Yes;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+            IF (TRUE) THEN // rest of line is commented
+              ;
+
+            {
+            multi line
+            comment
+            could also be code!
+            }
+          END;
+
+  }
+  CODE
+  {
+
+    BEGIN
+    {
+      55555
+    }
+    END.
+  }
+}
+
+OBJECT XMLport 55555 tmpXMLport
+{
+  OBJECT-PROPERTIES
+  {
+    Date=07-07-23;
+    Time=[ 9:00:31 AM];
+    Modified=Yes;
+    Version List=;
+  }
+  PROPERTIES
+  {
+  }
+  ELEMENTS
+  {
+    { [{6983755D-F34A-4F88-A2DF-5491F9892128}];  ;START               ;Element ;Text     }
+
+    { [{5A73FDC5-B6FB-4DEF-825E-9BCE07C040DC}];1 ;Indented            ;Element ;Text     }
+
+  }
+  EVENTS
+  {
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+    }
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Page 55555 tmpCardpage
+{
+  OBJECT-PROPERTIES
+  {
+    Date=07-07-23;
+    Time=[ 8:56:10 AM];
+    Modified=Yes;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    SourceTable=Table55555;
+    PageType=Card;
+  }
+  CONTROLS
+  {
+    { 1000000000;0;Container;
+                ContainerType=ContentArea }
+
+    { 1000000001;1;Group  ;
+                Name=General;
+                GroupType=Group }
+
+    { 1000000002;2;Field  ;
+                SourceExpr=Undefined }
+
+    { 1000000003;2;Field  ;
+                SourceExpr=Captioned }
+
+    { 1000000004;2;Field  ;
+                SourceExpr=ENU_nld }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Page 55556 tmpListpage
+{
+  OBJECT-PROPERTIES
+  {
+    Date=07-07-23;
+    Time=[ 8:56:39 AM];
+    Modified=Yes;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    SourceTable=Table55555;
+    PageType=List;
+  }
+  CONTROLS
+  {
+    { 1000000000;0;Container;
+                ContainerType=ContentArea }
+
+    { 1000000001;1;Group  ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 1000000002;2;Field  ;
+                SourceExpr=Undefined }
+
+    { 1000000003;2;Field  ;
+                SourceExpr=Captioned }
+
+    { 1000000004;2;Field  ;
+                SourceExpr=ENU_nld }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Query 55555 tmpQuery
+{
+  OBJECT-PROPERTIES
+  {
+    Date=07-07-23;
+    Time=[ 8:58:52 AM];
+    Modified=Yes;
+    Version List=;
+  }
+  PROPERTIES
+  {
+  }
+  ELEMENTS
+  {
+    { 1000000000;;DataItem;                  ;
+               DataItemTable=Table55555 }
+
+    { 1000000001;1;Column;                   ;
+               DataSource=Undefined }
+
+    { 1000000002;1;Column;                   ;
+               DataSource=Captioned }
+
+    { 1000000003;1;Column;                   ;
+               DataSource=ENU_nld }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+
