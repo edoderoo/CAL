@@ -1,4 +1,4 @@
-#DSA
+#DSA - updated
 type = ''
 cursor = 0
 objectNr = 0
@@ -21,22 +21,30 @@ def getObjectType(line):
   if line[0:6].upper() == 'REPORT':
      type = 'R'
      cursor = 7
+  if line[0:5].upper() == 'QUERY':
+     type = 'Q'
+     cursor = 6
   if line[0:7].upper() == 'XMLPORT':
      type = 'X'
      cursor = 8
   if line[0:9].upper() == 'MENUSUITE':
-     type = 'X'
+     type = 'M'
      cursor = 10
-  if type=='?'   : error(line)
+  if type=='?': 
+     print(line)
+     error(line)
   objectNr = getObjectNr(line[cursor:])
 
 def process_line(line):
   cursor = 0
   if line[0:6].upper() == 'OBJECT':
      getObjectType(line[7:])
-  
+  #   print(line[0:6]+'><'+line[7:])
+  #else:
+  #   print('>>%s<<' % line[0:6])
 
-#source = open('/home/edo/Downloads/RMS.txt', 'rb') #
-source = open('/home/edo/Downloads/RMS.txt', encoding='cp1252')
+#source = open('C:/temp/RMS.txt', 'r') #
+source = open('C:/temp/tmpExample.txt', 'r') #
+#source = open('/home/edo/Downloads/RMS.txt', encoding='cp1252')
 for line in source:
     process_line(line)
