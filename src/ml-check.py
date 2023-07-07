@@ -9,42 +9,54 @@ indentlevel = 0
 inString = False
 inLineComment = False
 inMultiLineComment = False
+inCodeBlock = False
 printline = ''
+restOfLine = ''
 
 class bcolors:
    STRING = '\033[96m'
    LCOMMENT = '\033[92m'
    SCOMMENT = '\033[94m'
 
-def charprint(char):
+def charprint(char, color):
    global printline
-   printline += char   
+   printline += char+color   
    if char=='\n':
       print(printline)
       printline = ''
 
 def parseChar(char):
-  global indentlevel, inString, inLineComment, inMultiLineComment
+  global indentlevel, inString, inLineComment, inMultiLineComment, restOfLine
 
-  if inString or (not (inLineComment or inMultiLineComment)):
+  if not (inLineComment or inMultiLineComment):
     if ((not inString) and (char=='{')):
        indentlevel += 1
     if ((not inString) and (char=='}')):
        indentlevel -= 1
     if ((not inString) and (not inLineComment) and (not inMultiLineComment) and (char=='\'')):
        inString = True
+  else:
+   if (inMultiLineComment and (not inString)) and (char=='}'):
+      inMultiLineComment = False   
+   else:   
+     if inLineComment and char=='\n':
+        inLineComment = False
 
   if inString:
-    charprint(char)     
+    charprint(char, bcolors.STRING)     
+  else:
+    charprint(char, '')  
 
 
 def parseLine(line):
-   global cursor
+   global cursor, restOfLine
    
    cursor=0
    for char in line:
+      restOfLine = line[cursor:]
       parseChar(char)
       cursor += 1
+      
 
 def isValidObjectChar(onechar):
    return ((onechar.lower() in '\"abcdefghijklmnopqrstuvwxyz_0123456789') and not (onechar.lower() in ' \n'))
@@ -112,7 +124,8 @@ def process_line(line):
   else:
      parseLine(line)  
 
-source = open('C:/temp/RMS.txt', 'r') #
+source = open('C:/temp/smallCAL.txt', 'r') #
+#source = open('C:/temp/RMS.txt', 'r') #
 #source = open('C:/temp/tmpExample.txt', 'r') #
 #source = open('/home/edo/Downloads/RMS.txt', encoding='cp1252')
 for line in source:
