@@ -5,8 +5,21 @@ objectNr = 0
 objectNr = 0
 objectName = ''
 
+def isValidObjectChar(onechar):
+   return ((onechar.lower() in 'abcdefghijklmnopqrstuvwxyz_0123456789') and not (onechar.lower() in ' \n'))
+
 def getObjectName(line):
-   print('%s_^_%s_!_%s' % (objectType, objectNr, line))
+   global cursor
+   foundName = ''
+
+   while not isValidObjectChar(line[cursor:cursor+1]):
+      cursor += 1
+
+   while isValidObjectChar(line[cursor:cursor+1]):
+     foundName += line[cursor:cursor+1]
+     cursor += 1
+
+   return(foundName)
 
 def getObjectNr(line):
    global cursor 
