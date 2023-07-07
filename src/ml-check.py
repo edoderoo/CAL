@@ -1,12 +1,53 @@
 #DSA - updated
+
 objectType = ''
 cursor = 0
 objectNr = 0
 objectNr = 0
 objectName = ''
+indentlevel = 0
+inString = False
+inLineComment = False
+inMultiLineComment = False
+printline = ''
+
+class bcolors:
+   STRING = '\033[96m'
+   LCOMMENT = '\033[92m'
+   SCOMMENT = '\033[94m'
+
+def charprint(char):
+   global printline
+   printline += char   
+   if char=='\n':
+      print(printline)
+      printline = ''
+
+def parseChar(char):
+  global indentlevel, inString, inLineComment, inMultiLineComment
+
+  if inString or (not (inLineComment or inMultiLineComment)):
+    if ((not inString) and (char=='{')):
+       indentlevel += 1
+    if ((not inString) and (char=='}')):
+       indentlevel -= 1
+    if ((not inString) and (not inLineComment) and (not inMultiLineComment) and (char=='\'')):
+       inString = True
+
+  if inString:
+    charprint(char)     
+
+
+def parseLine(line):
+   global cursor
+   
+   cursor=0
+   for char in line:
+      parseChar(char)
+      cursor += 1
 
 def isValidObjectChar(onechar):
-   return ((onechar.lower() in 'abcdefghijklmnopqrstuvwxyz_0123456789') and not (onechar.lower() in ' \n'))
+   return ((onechar.lower() in '\"abcdefghijklmnopqrstuvwxyz_0123456789') and not (onechar.lower() in ' \n'))
 
 def getObjectName(line):
    global cursor
@@ -68,9 +109,8 @@ def process_line(line):
   cursor = 0
   if line[0:6].upper() == 'OBJECT':
      getObjectType(line)
-  #   print(line[0:6]+'><'+line[7:])
-  #else:
-  #   print('>>%s<<' % line[0:6])
+  else:
+     parseLine(line)  
 
 source = open('C:/temp/RMS.txt', 'r') #
 #source = open('C:/temp/tmpExample.txt', 'r') #
