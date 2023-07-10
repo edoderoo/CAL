@@ -22,11 +22,34 @@ class navsrc:
     for line in self.source:
        print(line)
   
+   def nextchar(self):
+     if self.cursor >= len(self.source[self.curline]):
+       self.cursor = 1
+       self.curline += 1
+       while self.source[self.curline][self.cursor:self.cursor+1]==' ':
+         self.cursor += 1
+     else:
+       self.cursor += 1
+     return(self.source[self.curline][self.cursor:self.cursor+1])
+
+   def buildCaptionML(self):
+     CaptionStr = ''
+     nextchar = ''
+     while nextchar!='[':
+       nextchar = self.nextchar()
+     nextchar = self.nextchar()  
+     while nextchar != ']':
+       CaptionStr += nextchar
+       nextchar = self.nextchar()
+     return(CaptionStr)  
+  
    def processCaptionML(self):
-     print('%s-%s-%s-%s\n' % (self.objectType, self.objectNr, self.objectName, self.source[self.curline][self.cursor:]))
+      CaptionStr = self.buildCaptionML()
+      print('<%s>' % CaptionStr)   
 
    def processOptionCaptionML(self):
-     print('%s-%s-%s-%s\n' % (self.objectType, self.objectNr, self.objectName, self.source[self.curline][self.cursor:]))
+      CaptionStr = self.buildCaptionML()
+      print('!%s!' % CaptionStr)   
      
    def getObjectName(self):
      foundName = ''
@@ -84,14 +107,14 @@ class navsrc:
           self.getObjectType()
         self.cursor = self.source[self.curline].lower().find('optioncaptionml=[')
         if self.cursor > 0:
-           self.processCaptionML()
+           self.processOptionCaptionML()
         else:
           self.cursor = self.source[self.curline].lower().find('captionml=[')
           if self.cursor > 0:
-             self.processOptionCaptionML()
+             self.processCaptionML()
           else:
             if False:
-              void#
+              pass
         self.curline+=1
 
 src = navsrc()
