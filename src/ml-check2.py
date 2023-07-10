@@ -23,10 +23,10 @@ class navsrc:
        print(line)
   
    def processCaptionML(self):
-     print('%s\n' % self.source[self.curline][self.cursor:])
+     print('%s-%s-%s-%s\n' % (self.objectType, self.objectNr, self.objectName, self.source[self.curline][self.cursor:]))
 
    def processOptionCaptionML(self):
-     print('%s\n' % self.source[self.curline][self.cursor:])
+     print('%s-%s-%s-%s\n' % (self.objectType, self.objectNr, self.objectName, self.source[self.curline][self.cursor:]))
      
    def getObjectName(self):
      foundName = ''
@@ -46,31 +46,32 @@ class navsrc:
      while self.source[self.curline][self.cursor:self.cursor+1] in '0123456789':
         foundobjectNr += self.source[self.curline][self.cursor:self.cursor+1]
         self.cursor += 1
-     self.objectNr = foundobjectNr
+     if foundobjectNr!='':
+       self.objectNr = int(foundobjectNr, base=10)
 
    def getObjectType(self):
     self.objectType='?'
     if self.source[self.curline][7:12].upper() == 'TABLE':
        self.objectType = 'T'
-       cursor = 13
+       self.cursor = 13
     if self.source[self.curline][7:11].upper() == 'PAGE':
        self.objectType = 'P'
-       cursor = 12
+       self.cursor = 12
     if self.source[self.curline][7:15].upper() == 'CODEUNIT':
        self.objectType = 'C'
-       cursor = 16
+       self.cursor = 16
     if self.source[self.curline][7:13].upper() == 'REPORT':
        self.objectType = 'R'
-       cursor = 14
+       self.cursor = 14
     if self.source[self.curline][7:12].upper() == 'QUERY':
        self.objectType = 'Q'
-       cursor = 13
+       self.cursor = 13
     if self.source[self.curline][7:14].upper() == 'XMLPORT':
        self.objectType = 'X'
-       cursor = 15
+       self.cursor = 15
     if self.source[self.curline][7:16].upper() == 'MENUSUITE':
        self.objectType = 'M'
-       cursor = 17
+       self.cursor = 17
     if self.objectType=='?': 
        print(self.source[self.curline])
        error(self.source[self.curline])
