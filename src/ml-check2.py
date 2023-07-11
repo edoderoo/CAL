@@ -1,5 +1,7 @@
 #use a class to read all source and process from there
 
+captionMustList = 'NLD,NLB'
+
 def isValidObjectChar(onechar):
    return ((onechar.lower() in '\"abcdefghijklmnopqrstuvwxyz_0123456789') and not (onechar.lower() in ' \n'))
 
@@ -42,14 +44,26 @@ class navsrc:
        CaptionStr += nextchar
        nextchar = self.nextchar()
      return(CaptionStr)  
-  
+   def checkCaption(self, Caption):
+     pos=0
+     lnglist=[]
+     while pos<len(Caption):
+       lng = Caption[pos:pos+3]
+       lnglist.append(lng)
+       while (pos+1<len(Caption)) and (Caption[pos:pos+1] != ';'):
+         pos += 1
+       pos += 1  
+     print(lnglist)    
+      
    def processCaptionML(self):
       CaptionStr = self.buildCaptionML()
-      print('<%s>' % CaptionStr)   
+      self.checkCaption(CaptionStr)
+      #print('<%s>' % CaptionStr)   
 
    def processOptionCaptionML(self):
       CaptionStr = self.buildCaptionML()
-      print('!%s!' % CaptionStr)   
+      self.checkCaption(CaptionStr)
+      #print('!%s!' % CaptionStr)   
      
    def getObjectName(self):
      foundName = ''
