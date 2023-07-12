@@ -1,6 +1,6 @@
 #use a class to read all source and process from there
 
-captionMustList = 'NLD,NLB'
+captionMustList = ['NLD','ENU']
 
 def isValidObjectChar(onechar):
    return ((onechar.lower() in '\"abcdefghijklmnopqrstuvwxyz_0123456789') and not (onechar.lower() in ' \n'))
@@ -53,7 +53,9 @@ class navsrc:
        while (pos+1<len(Caption)) and (Caption[pos:pos+1] != ';'):
          pos += 1
        pos += 1  
-     print(lnglist)    
+     for language in captionMustList:
+       if not language in lnglist:
+         print('%s: %s%s %s' % (language,self.objectType,self.objectNr, Caption)) 
       
    def processCaptionML(self):
       CaptionStr = self.buildCaptionML()
@@ -133,5 +135,6 @@ class navsrc:
 
 src = navsrc()
 #src.readsource('C:/temp/smallCAL.txt', 'r')
-src.readsource('tmpExample.txt', 'r')
+#src.readsource('tmpExample.txt', 'r')
+src.readsource('/home/edo/Downloads/RMS.txt','r')
 src.parse()
