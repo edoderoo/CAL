@@ -2,6 +2,12 @@ def isValidObjectChar(onechar):
    return ((onechar.lower() in '\"abcdefghijklmnopqrstuvwxyz_0123456789') and not (onechar.lower() in ' \n'))
 
 
+
+class objectProperties:
+  date = ''
+  time = ''
+  modified = False
+  version = ''
 class navField:
   fieldNr = 0
   fieldName = ''
@@ -25,6 +31,9 @@ class navSrc:
    objectNr = 0
    objectName = ''
    captionMustList = ['NLD','ENU']
+
+   def parseObjectProperties():
+     pass
 
    def readsource(self, filename, method):
      infile = open(filename, method)
