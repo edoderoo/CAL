@@ -1,7 +1,22 @@
 def isValidObjectChar(onechar):
    return ((onechar.lower() in '\"abcdefghijklmnopqrstuvwxyz_0123456789') and not (onechar.lower() in ' \n'))
 
-class navsrc:
+
+class navField:
+  fieldNr = 0
+  fieldName = ''
+  fieldType = ''
+  fieldMLname = ''
+  fieldMLoption = ''
+    
+class navObj:
+   objectType = ''
+   objectNr = 0
+   objectName = ''
+   fieldList = []
+   codeList = []
+
+class navSrc:
    source = ['']
    curline = 0
    cursor = 0
