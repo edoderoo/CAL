@@ -134,7 +134,8 @@ class navsrc:
         self.curline+=1
 
 src = navsrc()
-#src.readsource('C:/temp/smallCAL.txt', 'r')
-#src.readsource('tmpExample.txt', 'r')
-src.readsource('/home/edo/Downloads/RMS.txt','r')
+#filename = r'C:/temp/tmpExample.txt'
+filename = r'C:/temp/smallCAL.txt'
+#filename = '/home/edo/Downloads/RMS.txt'
+src.readsource(filename, 'r')
 src.parse()
