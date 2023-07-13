@@ -19,6 +19,7 @@ class navObj:
    objectType = ''
    objectNr = 0
    objectName = ''
+   properties = objectProperties
    fieldList = []
    codeList = []
 
@@ -31,9 +32,28 @@ class navSrc:
    objectNr = 0
    objectName = ''
    captionMustList = ['NLD','ENU']
+   objList = []
 
-   def parseObjectProperties():
-     pass
+   def parseObjectProperties(self):
+     self.curline += 4
+     
+     curProperties = objectProperties()
+     curProperties.date = self.source[self.curline][9:17]
+     self.curline += 1
+     curProperties.time = self.source[self.curline][10:18]
+     self.curline += 1
+     curProperties.modified = self.source[self.curline][4:16] == 'Modified=Yes'
+     self.curline += 1
+     curProperties.version = self.source[self.curline][17:]
+     self.curline += 2
+
+     curObj = navObj()
+     curObj.objectType=self.objectType
+     curObj.objectNr=self.objectNr
+     curObj.objectName = self.objectName
+     curObj.properties = curProperties
+     
+     self.objList.append(curObj)
 
    def readsource(self, filename, method):
      infile = open(filename, method)
@@ -137,6 +157,7 @@ class navSrc:
        error(self.source[self.curline])
     self.getObjectNr()
     self.getObjectName()
+    self.parseObjectProperties() 
 
    def parse(self):
      while self.curline<self.maxline:
@@ -153,3 +174,10 @@ class navSrc:
             if False:
               pass
         self.curline+=1
+
+src = navSrc()
+#filename = r'C:/temp/tmpExample.txt'
+#filename = r'C:/temp/smallCAL.txt'
+filename = '/home/edo/Downloads/RMS.txt'
+src.readsource(filename, 'r')
+src.parse()
