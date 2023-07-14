@@ -175,9 +175,16 @@ class navSrc:
               pass
         self.curline+=1
 
+import platform
+match platform.platform(terse=True)[0:6]:
+  case 'Ubuntu':
+     filename = '/home/edo/Downloads/RMS.txt'
+  case 'Window': 
+    #filename = r'C:/temp/tmpExample.txt'
+    filename = r'C:/temp/smallCAL.txt'
+  case _:
+    print(platform.platform(terse=True)[0:6])
+
 src = navSrc()
-#filename = r'C:/temp/tmpExample.txt'
-#filename = r'C:/temp/smallCAL.txt'
-filename = '/home/edo/Downloads/RMS.txt'
 src.readsource(filename, 'r')
 src.parse()
