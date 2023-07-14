@@ -34,6 +34,22 @@ class navSrc:
    captionMustList = ['NLD','ENU']
    objList = []
 
+   def parseFields(self):
+     self.curline += 1
+     self.cursor = 0
+     while self.source[self.curline] != '  }':
+         self.curline += 1
+         
+
+         print('--%s' % self.source[self.curline])
+
+   
+   def parseProperties(self):
+     self.curline += 2
+     while self.source[self.curline] != '  }':
+       self.curline += 1
+     self.curline += 1  
+
    def parseObjectProperties(self):
      self.curline += 4
      
@@ -155,14 +171,18 @@ class navSrc:
     if self.objectType=='?': 
        print(self.source[self.curline])
        error(self.source[self.curline])
-    self.getObjectNr()
-    self.getObjectName()
-    self.parseObjectProperties() 
 
    def parse(self):
      while self.curline<self.maxline:
         if self.source[self.curline][0:6].upper() == 'OBJECT':
           self.getObjectType()
+          self.getObjectNr()
+          self.getObjectName()
+          self.parseObjectProperties() 
+          self.parseProperties()
+          self.parseFields()
+
+
         self.cursor = self.source[self.curline].lower().find('optioncaptionml=[')
         if self.cursor > 0:
            self.processOptionCaptionML()
