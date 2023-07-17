@@ -34,15 +34,55 @@ class navSrc:
    captionMustList = ['NLD','ENU']
    objList = []
 
+   def parseOneField(self):
+     self.cursor = 5
+     print('1-%s' % self.source[self.curline][self.cursor:])
+     
+     fieldStr = ''
+     while self.source[self.curline][self.cursor:self.cursor+1] != ';':
+       fieldStr += self.source[self.curline][self.cursor:self.cursor+1]
+       self.cursor += 1
+
+     field = navField()
+     print('2-%d--%s' % (field.fieldNr, fieldStr))
+     field.fieldNr = int(fieldStr)
+     self.cursor += 1
+     while self.source[self.curline][self.cursor:self.cursor+1] != ';':
+       self.cursor += 1
+
+     self.cursor += 1
+     while self.source[self.curline][self.cursor:self.cursor+1] != ';':
+       field.fieldName += self.source[self.curline][self.cursor:self.cursor+1]
+       self.cursor += 1
+     print('3-%s' % field.fieldName)  
+
+     self.cursor += 1
+     while not(self.source[self.curline][self.cursor:self.cursor+1] in ';}'):
+       field.fieldType += self.source[self.curline][self.cursor:self.cursor+1]
+       self.cursor += 1
+       match self.source[self.curline][self.cursor:self.cursor+1]:
+         case '\n','': 
+           self.curline += 1
+           self.cursor = 0
+     print('4-%s' % field.fieldType)  
+
+     fieldOptions = ''
+     self.cursor += 1
+     while not(self.source[self.curline][self.cursor:self.cursor+1] in ';}'):
+       fieldOptions += self.source[self.curline][self.cursor:self.cursor+1]
+       self.cursor += 1
+     print('5-%s' % fieldOptions)  
+  
+
+     return(navField)
+   
    def parseFields(self):
-     self.curline += 1
+     self.curline += 2
      self.cursor = 0
      while self.source[self.curline] != '  }':
-         self.curline += 1
-         
-
-         print('--%s' % self.source[self.curline])
-
+        field = self.parseOneField()   
+        self.curline += 1      
+     self.curline += 1
    
    def parseProperties(self):
      self.curline += 2
