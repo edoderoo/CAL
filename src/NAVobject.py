@@ -63,14 +63,19 @@ class navSrc:
        match self.source[self.curline][self.cursor:self.cursor+1]:
          case '\n','': 
            self.curline += 1
-           self.cursor = 0
+           self.cursor = 1
      print('4-%s' % field.fieldType)  
 
      fieldOptions = ''
      self.cursor += 1
-     while not(self.source[self.curline][self.cursor:self.cursor+1] in ';}'):
+     endset = ';}'
+     while (not(self.source[self.curline][self.cursor:self.cursor+1] in endset)):
        fieldOptions += self.source[self.curline][self.cursor:self.cursor+1]
        self.cursor += 1
+       endset = '}'
+       if self.cursor>=len(self.source[self.curline]):
+           self.curline += 1
+           self.cursor = 0
      print('5-%s' % fieldOptions)  
   
 
