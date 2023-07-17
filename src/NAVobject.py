@@ -14,6 +14,15 @@ class navField:
   fieldType = ''
   fieldMLname = ''
   fieldMLoption = ''
+  fieldOptionString = ''
+
+  def parseOptions(self, optStr):
+    if (optStr.find('CaptionML')>0): self.fieldMLname = optStr[optStr.find('CaptionML')+10:]
+    if (optStr.find('OptionCaptionML')>0): self.fieldMLoption = optStr[optStr.find('OptionCaptionML')+16:]
+    if (optStr.find('OptionString')>0): self.fieldOptionString = optStr[optStr.find('OptionString')+12:]
+
+  def print(self):
+    print('--%d--[%s]--<%s>--(%s)--!%s!--^%s^' % (self.fieldNr, self.fieldName, self.fieldType,self.fieldMLname, self.fieldMLoption, self.fieldOptionString))
     
 class navObj:
    objectType = ''
@@ -36,7 +45,6 @@ class navSrc:
 
    def parseOneField(self):
      self.cursor = 5
-     print('1-%s' % self.source[self.curline][self.cursor:])
      
      fieldStr = ''
      while self.source[self.curline][self.cursor:self.cursor+1] != ';':
@@ -44,7 +52,6 @@ class navSrc:
        self.cursor += 1
 
      field = navField()
-     print('2-%d--%s' % (field.fieldNr, fieldStr))
      field.fieldNr = int(fieldStr)
      self.cursor += 1
      while self.source[self.curline][self.cursor:self.cursor+1] != ';':
@@ -54,7 +61,6 @@ class navSrc:
      while self.source[self.curline][self.cursor:self.cursor+1] != ';':
        field.fieldName += self.source[self.curline][self.cursor:self.cursor+1]
        self.cursor += 1
-     print('3-%s' % field.fieldName)  
 
      self.cursor += 1
      while not(self.source[self.curline][self.cursor:self.cursor+1] in ';}'):
@@ -64,7 +70,6 @@ class navSrc:
          case '\n','': 
            self.curline += 1
            self.cursor = 1
-     print('4-%s' % field.fieldType)  
 
      fieldOptions = ''
      self.cursor += 1
@@ -76,16 +81,16 @@ class navSrc:
        if self.cursor>=len(self.source[self.curline]):
            self.curline += 1
            self.cursor = 0
-     print('5-%s' % fieldOptions)  
-  
+     field.parseOptions(fieldOptions)
 
-     return(navField)
+     return(field)
    
    def parseFields(self):
      self.curline += 2
      self.cursor = 0
      while self.source[self.curline] != '  }':
         field = self.parseOneField()   
+        field.print()
         self.curline += 1      
      self.curline += 1
    
