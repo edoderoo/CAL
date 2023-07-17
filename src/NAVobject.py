@@ -84,7 +84,6 @@ class navSrc:
      field.parseOptions(fieldOptions)
 
      return(field)
-   
    def parseFields(self):
      self.curline += 2
      self.cursor = 0
@@ -246,14 +245,14 @@ class navSrc:
         self.curline+=1
 
 import platform
-match platform.platform(terse=True)[0:6]:
-  case 'Ubuntu':
+match platform.platform(terse=True)[0:5]:
+  case 'Linux':
      filename = '/home/edo/Downloads/RMS.txt'
-  case 'Window': 
+  case 'Windo': 
     #filename = r'C:/temp/tmpExample.txt'
     filename = r'C:/temp/smallCAL.txt'
   case _:
-    print(platform.platform(terse=True)[0:6])
+    print(platform.platform(terse=True))
 
 src = navSrc()
 src.readsource(filename, 'r')
